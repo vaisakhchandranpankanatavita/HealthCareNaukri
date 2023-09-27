@@ -14,7 +14,6 @@ import {
   withAuthenticator,
   useAuthenticator,
 } from '@aws-amplify/ui-react-native';
-
 import { Amplify } from 'aws-amplify';
 import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);
@@ -27,18 +26,17 @@ const SignOutButton = () => {
   return (
     <Pressable onPress={signOut} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>
-        Hello, {user.username}! Click here to sign out!
-      </Text>
+r      </Text>
     </Pressable>
   );
 };
 
-const initialFormState = {name: '', description: ''};
+const initialFormState = {name: 'kochan', dateOfBirth: '1970-01-01Z',country:'India',state:'kerala'};
 
 const App = () => {
   const [formState, setFormState] = useState(initialFormState);
   const [todos, setTodos] = useState([]);
-
+  const [date, setDate] = useState(new Date()); 
   useEffect(() => {
     fetchTodos();
   }, []);
@@ -46,6 +44,10 @@ const App = () => {
   function setInput(key, value) {
     setFormState({...formState, [key]: value});
   }
+  const onChange = (event, selectedDate) => {
+    setShow(Platform.OS === 'ios');
+    setDate(selectedDate || date);
+  };
 
   async function fetchTodos() {
     try {
@@ -58,8 +60,9 @@ const App = () => {
   }
 
   async function addTodo() {
+    console.log('step 1')
     try {
-      if (!formState.name || !formState.description) return;
+      if (!formState.name || !formState.state) return;
       const todo = {...formState};
       setTodos([...todos, todo]);
       setFormState(initialFormState);
@@ -68,6 +71,9 @@ const App = () => {
       console.log('error creating todo:', err);
     }
   }
+  useEffect(() => {
+    console.log(formState)
+  },[formState])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -82,12 +88,25 @@ const App = () => {
         <TextInput
           onChangeText={value => setInput('description', value)}
           style={styles.input}
-          value={formState.description}
+          value={formState.dateOfBirth}
           placeholder="Description"
+        />
+          <TextInput
+          onChangeText={value => setInput('dateOfBirth', value)}
+          style={styles.input}
+          value={formState.dateOfBirth}
+          placeholder="DOB"
+        />
+         <TextInput
+          onChangeText={value => setInput('country', value)}
+          style={styles.input}
+          value={formState.country}
+          place holder="Country"
         />
         <Pressable onPress={addTodo} style={styles.buttonContainer}>
           <Text style={styles.buttonText}>Create todo</Text>
         </Pressable>
+      
         {todos.map((todo, index) => (
           <View key={todo.id ? todo.id : index} style={styles.todo}>
             <Text style={styles.todoName}>{todo.name}</Text>

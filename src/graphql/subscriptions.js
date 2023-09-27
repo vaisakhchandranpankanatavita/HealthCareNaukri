@@ -6,7 +6,11 @@ export const onCreateTodo = /* GraphQL */ `
     onCreateTodo(filter: $filter) {
       id
       name
-      description
+      dateOfBirth
+      country
+      state
+      district
+      age
       createdAt
       updatedAt
       __typename
@@ -18,7 +22,11 @@ export const onUpdateTodo = /* GraphQL */ `
     onUpdateTodo(filter: $filter) {
       id
       name
-      description
+      dateOfBirth
+      country
+      state
+      district
+      age
       createdAt
       updatedAt
       __typename
@@ -30,7 +38,11 @@ export const onDeleteTodo = /* GraphQL */ `
     onDeleteTodo(filter: $filter) {
       id
       name
-      description
+      dateOfBirth
+      country
+      state
+      district
+      age
       createdAt
       updatedAt
       __typename
